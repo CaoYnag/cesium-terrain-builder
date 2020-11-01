@@ -19,7 +19,7 @@
  * @brief This defines the `Terrain` and `TerrainTile` classes
  */
 
-#include <string.h>             // for memcpy
+//#include <string.h>             // for memcpy // already included string -- cy
 
 #include "zlib.h"
 #include "ogr_spatialref.h"
@@ -28,7 +28,7 @@
 #include "TerrainTile.hpp"
 #include "GlobalGeodetic.hpp"
 #include "Bounds.hpp"
-
+using namespace std;
 using namespace ctb;
 
 Terrain::Terrain():
@@ -42,9 +42,9 @@ Terrain::Terrain():
  * @details This reads gzipped terrain data from a file.
  */
 Terrain::Terrain(const char *fileName):
-  mHeights(TILE_CELL_SIZE)
+        mHeights(TILE_CELL_SIZE)
 {
-  readFile(fileName);
+    readFile(fileName);
 }
 
 /**
@@ -129,6 +129,14 @@ Terrain::readFile(const char *fileName) {
 
   // Get the water mask
   memcpy(mMask, &(inflateBuffer[++byteCount]), mMaskLength);
+}
+
+string
+Terrain::write_raw() const {
+    string ret((char*)mHeights.data(), TILE_CELL_SIZE * 2);
+    ret.append(&mChildren, 1);
+    ret.append(mMask, mMaskLength);
+    return ret;
 }
 
 /**

@@ -23,7 +23,7 @@
  */
 
 #include <vector>
-
+#include <string>
 #include "gdal_priv.h"
 
 #include "config.hpp"
@@ -64,6 +64,10 @@ public:
   /// Write terrain data to the filesystem
   void
   writeFile(const char *fileName) const;
+
+  /// Write terrain data
+  std::string
+  write_raw() const;
 
   /// Get the water mask as a boolean mask
   std::vector<bool>
